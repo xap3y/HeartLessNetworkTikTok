@@ -1,0 +1,11 @@
+name: HeartLessTikTok
+version: '${project.version}'
+main: me.xap3y.heartlesstiktok.Main
+api-version: '1.20'
+authors: [XAP3Y]
+description: Connector to a tiktok livestream for minecraft server HeartLess Network
+
+commands:
+  ht:
+    description: Reloads the plugin's configuration
+    usage: /ht <arg>
