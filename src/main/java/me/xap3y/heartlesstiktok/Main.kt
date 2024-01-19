@@ -1,6 +1,5 @@
 package me.xap3y.heartlesstiktok
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import io.github.jwdeveloper.tiktok.TikTokLive
 import io.github.jwdeveloper.tiktok.data.events.TikTokCommentEvent
 import io.github.jwdeveloper.tiktok.data.events.TikTokConnectedEvent
@@ -9,7 +8,7 @@ import io.github.jwdeveloper.tiktok.data.events.gift.TikTokGiftEvent
 import io.github.jwdeveloper.tiktok.data.models.gifts.Gift
 import io.github.jwdeveloper.tiktok.live.LiveClient
 import io.github.jwdeveloper.tiktok.live.builder.LiveClientBuilder
-import me.xap3y.heartlesstiktok.commands.ReloadConfiguration
+import me.xap3y.heartlesstiktok.commands.RootCommand
 import me.xap3y.heartlesstiktok.utils.ConfigStructure
 import me.xap3y.heartlesstiktok.utils.InfoPlayers.Companion.notifyGift
 import me.xap3y.heartlesstiktok.utils.InfoPlayers.Companion.notifyMessage
@@ -36,7 +35,7 @@ class Main : JavaPlugin() {
         }
 
         playerNotifyDB = PlayerNotifyDB()
-        getCommand("ht")?.setExecutor(ReloadConfiguration(this, config, playerNotifyDB))
+        getCommand("ht")?.setExecutor(RootCommand(this, config, playerNotifyDB))
     }
 
     /*override fun onDisable() {
@@ -55,6 +54,16 @@ class Main : JavaPlugin() {
         }
         configData.let {
             config = it
+        }
+    }
+    fun reconnectStream() {
+        try {
+            client?.disconnect()
+            client = null
+            Thread.sleep(300)
+            client = createClient().buildAndConnect()
+        } catch (e: Exception) {
+            if (config.debug) e.message?.let { Message.info(it) }
         }
     }
     private fun createClient(): LiveClientBuilder {

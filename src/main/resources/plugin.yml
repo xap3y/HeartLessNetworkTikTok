@@ -8,4 +8,4 @@ description: Connector to a tiktok livestream for minecraft server HeartLess Net
 commands:
   ht:
     description: Reloads the plugin's configuration
-    usage: /ht <arg>
+    usage: /ht <arg-1>
